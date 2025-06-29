@@ -140,9 +140,9 @@ class Sequential(nn.Module, metaclass=AlgoMeta):
         train_dataloader = DataLoader(
             dataset,
             batch_size=self.cfg.train.batch_size,
-            num_workers=self.cfg.train.num_workers,
+            num_workers=0,
             sampler=RandomSampler(dataset),
-            persistent_workers=True,
+            # persistent_workers=True,
         )
 
         prev_success_rate = -1.0

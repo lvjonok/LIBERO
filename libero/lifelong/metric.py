@@ -15,6 +15,7 @@ from libero.libero.utils.time_utils import Timer
 from libero.libero.utils.video_utils import VideoWriter
 from libero.lifelong.utils import *
 
+torch.serialization.add_safe_globals([np.core.multiarray._reconstruct])
 
 def raw_obs_to_tensor_obs(obs, task_emb, cfg):
     """
@@ -207,7 +208,7 @@ def evaluate_loss(cfg, algo, benchmark, datasets):
         dataloader = DataLoader(
             dataset,
             batch_size=cfg.eval.batch_size,
-            num_workers=cfg.eval.num_workers,
+            num_workers=0, #cfg.eval.num_workers,
             shuffle=False,
         )
         test_loss = 0

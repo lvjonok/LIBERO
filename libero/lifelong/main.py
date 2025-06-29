@@ -196,15 +196,13 @@ def main(hydra_cfg):
             result_summary["S_conf_mat"][-1] = S
 
             if cfg.use_wandb:
-                wandb.run.summary["success_confusion_matrix"] = result_summary[
-                    "S_conf_mat"
-                ]
-                wandb.run.summary["loss_confusion_matrix"] = result_summary[
-                    "L_conf_mat"
-                ]
-                wandb.run.summary["fwd_transfer_success"] = result_summary["S_fwd"]
-                wandb.run.summary["fwd_transfer_loss"] = result_summary["L_fwd"]
-                wandb.run.summary.update()
+                summary = {
+                    "success_confusion_matrix": result_summary["S_conf_mat"],
+                    "loss_confusion_matrix": result_summary["L_conf_mat"],
+                    "fwd_transfer_success": result_summary["S_fwd"],
+                    "fwd_transfer_loss": result_summary["L_fwd"],
+                }
+                wandb.run.summary.update(summary)
 
             print(("[All task loss ] " + " %4.2f |" * n_tasks) % tuple(L))
             print(("[All task succ.] " + " %4.2f |" * n_tasks) % tuple(S))
@@ -239,15 +237,13 @@ def main(hydra_cfg):
                 result_summary["S_conf_mat"][i][: i + 1] = S
 
                 if cfg.use_wandb:
-                    wandb.run.summary["success_confusion_matrix"] = result_summary[
-                        "S_conf_mat"
-                    ]
-                    wandb.run.summary["loss_confusion_matrix"] = result_summary[
-                        "L_conf_mat"
-                    ]
-                    wandb.run.summary["fwd_transfer_success"] = result_summary["S_fwd"]
-                    wandb.run.summary["fwd_transfer_loss"] = result_summary["L_fwd"]
-                    wandb.run.summary.update()
+                    summary = {
+                        "success_confusion_matrix": result_summary["S_conf_mat"],
+                        "loss_confusion_matrix": result_summary["L_conf_mat"],
+                        "fwd_transfer_success": result_summary["S_fwd"],
+                        "fwd_transfer_loss": result_summary["L_fwd"],
+                    }
+                    wandb.run.summary.update(summary)
 
                 print(
                     f"[info] train time (min) {(t1-t0)/60:.1f} "

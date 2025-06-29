@@ -104,13 +104,13 @@ def parse_args():
     args.save_dir = f"{args.experiment_dir}_saved"
 
     if args.algo == "multitask":
-        assert args.ep in list(
-            range(0, 50, 5)
-        ), "[error] ep should be in [0, 5, ..., 50]"
+        assert args.ep in list(range(0, 50, 5)), (
+            "[error] ep should be in [0, 5, ..., 50]"
+        )
     else:
-        assert args.load_task in list(
-            range(10)
-        ), "[error] load_task should be in [0, ..., 9]"
+        assert args.load_task in list(range(10)), (
+            "[error] load_task should be in [0, ..., 9]"
+        )
     return args
 
 
@@ -167,7 +167,9 @@ def main():
     if cfg.lifelong.algo == "PackNet":
         algo.eval()
         for module_idx, module in enumerate(algo.policy.modules()):
-            if isinstance(module, torch.nn.Conv2d) or isinstance(module, torch.nn.Linear):
+            if isinstance(module, torch.nn.Conv2d) or isinstance(
+                module, torch.nn.Linear
+            ):
                 weight = module.weight.data
                 mask = algo.previous_masks[module_idx].to(cfg.device)
                 weight[mask.eq(0)] = 0.0
@@ -262,7 +264,7 @@ def main():
 
         num_success = 0
         for _ in range(5):  # simulate the physics without any actions
-            env.step(np.zeros((env_num, 7)))
+            obs, reward, done, info = env.step(np.zeros((env_num, 7)))
 
         with torch.no_grad():
             while steps < cfg.eval.max_steps:
